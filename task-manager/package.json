@@ -1,5 +1,5 @@
 {
-  "name": "nodejs",
+  "name": "task-cli",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -7,6 +7,9 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin":{
+    "task-cli":"./app.js"
   },
   "author": "",
   "license": "ISC",

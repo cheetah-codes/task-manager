@@ -1,4 +1,8 @@
+#!/usr/bin/env node
+
 // const readLine = require("readline")
+
+const addTask = require("./addTask");
 
 // const qa = readLine.createInterface({
     
@@ -31,10 +35,42 @@
 
 // console.log(`Hello, ${name}!`);
 
-const {argv} = require("node:process")
+// const {argv} = require("node:process")
 
-console.log(argv)
+// console.log(argv);
 
 // process.argv.forEach((val, index) => {
 //   console.log(`${index}: ${val}`);
 // });
+const processArgs = process.argv.slice(2)
+
+const [command,subcommand,value] = processArgs;
+
+console.log('worked from cli',command,subcommand,value);
+
+switch (command) {
+    case "add":
+        addTask(subcommand)
+        
+        break;
+
+    // case "update":
+        
+    //     break;
+
+    // case "delete":
+        
+    //     break;
+
+    // case "list":
+        
+    //     break;
+
+    // case "mark-in-progress":
+        
+    //     break;
+
+    default:
+        break;
+}
+// if(process.argv[])
