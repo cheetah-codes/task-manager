@@ -1,76 +1,72 @@
 #!/usr/bin/env node
+import addTask from './addTask.js' 
+// const todo = require('./todo.json');
+import inquirer from "inquirer";
 
-// const readLine = require("readline")
+const processArgs = process.argv.slice(2);
+const [command, subcommand, value] = processArgs;
 
-const addTask = require("./addTask");
+//the above method works but has a certain logical donside an improved version is below
 
-// const qa = readLine.createInterface({
-    
-//     input: process.stdin,
-//     output: process.stdout
-// }
-// )
+const mainFunc = async () => {
+  // const answers = await inquirer.prompt([
+  //      {
+  //          type: "list",
+  //          name: "option",
+  //          message: "What do you want to do?",
+  //          choices: ["add", "delete", "list", "mark as done","update", "exit"]
+  //      }
+  //  ]);
 
-// copy.js
+//   const inquirer = (await import("inquirer")).default;
 
-// process.argv is an array like:
-// [ 'node', '/path/to/copy.js', 'source.txt', 'destination.txt' ]
-// const argss = process.argv.slice(2); // skip the first two entries
+    let answers;
 
-// const source = argss[0];
-// const destination = argss[1];
+   try {
+     answers = await inquirer.prompt([
+      {
+        type: "list",
+        name: "option",
+        message: "What do you want to do?",
+        choices: ["add", "delete", "list", "mark as done", "update", "exit"],
+      },
+    ]);
 
-// if (!source || !destination) {
-//   console.log("Usage: node copy.js <source> <destination>");
-//   process.exit(1);
-// }
+    console.log("You selected:", answers.option);
+  } catch (error) {
+    if (error.isTtyError) {
+      console.log("Prompt couldn't be rendered in the current environment");
+    } else {
+      console.error("Something went wrong:", error);
+    }
+  }
+  
 
-// console.log(`Copying from ${source} to ${destination}`);
-
-// Example: fs.copyFileSync(source, destination);
-
-
-// const args = process.argv.slice(2);
-// const name = args[0] || "stranger";
-
-// console.log(`Hello, ${name}!`);
-
-// const {argv} = require("node:process")
-
-// console.log(argv);
-
-// process.argv.forEach((val, index) => {
-//   console.log(`${index}: ${val}`);
-// });
-const processArgs = process.argv.slice(2)
-
-const [command,subcommand,value] = processArgs;
-
-console.log('worked from cli',command,subcommand,value);
-
-switch (command) {
+  switch (answers.option) {
     case "add":
-        addTask(subcommand)
-        
-        break;
+       addTask()
+
+      break;
 
     // case "update":
-        
+
     //     break;
 
     // case "delete":
-        
+
     //     break;
 
     // case "list":
-        
+
     //     break;
 
     // case "mark-in-progress":
-        
+
     //     break;
 
     default:
-        break;
-}
-// if(process.argv[])
+      break;
+  }
+};
+
+mainFunc();

@@ -1,28 +1,45 @@
-const {writeFile} = require('fs')
+import { readFileSync, writeFileSync } from "node:fs";
+import inquirer from "inquirer";
+import chalk from "chalk";
+import { v4 as uuidv4 } from 'uuid';
 
+let todos = JSON.parse(readFileSync("./todo.json", "utf8"));
 
-const addTask = (text)=>{
-    const info = {
-    "success":true,
-   "data":[
-        {
-            "id":1,
-            "description": `${text}`,
+const saveTodos = () => {
+  writeFileSync("./todo.json", JSON.stringify(todos, null, 2));
+};
 
-"status": "Todo",
-"createdAt": new Date().getDate(),
+const addTask = async () => {
+  const date = new Date();
 
-"updatedAt": new Date().getDate()
-        }
-    ]
-}
+  const answer = await inquirer.prompt([
+    {
+      type: "input",
+      name: "todo",
+      message: "What do you want to do?",
+    },
+  ]);
 
-    writeFile('./test.json',JSON.stringify(info,null,2),{flag:'a'},(err)=>{
-        if(!err){
-            console.log("hey it worked");
-        }
-    })
-}
+  todos.push({
+    id: uuidv4(),
+    description: `${answer.todo}`,
 
-module.exports = addTask
+    status: "Todo",
+    createdAt: `${new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })} ${new Date().toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })}`,
 
+    updatedAt: new Date().getUTCDate(),
+  });
+
+  saveTodos();
+
+  console.log(chalk.green("Todo added successfully!"));
+};
+
+export default addTask;
