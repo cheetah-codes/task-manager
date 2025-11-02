@@ -34,7 +34,7 @@ const addTask = async () => {
       year: "numeric",
     })}`,
 
-    updatedAt: new Date().getUTCDate(),
+    updatedAt: `Sometime in ${new Date().getUTCDate()}`,
   });
 
   saveTodos();
