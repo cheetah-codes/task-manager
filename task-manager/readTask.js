@@ -1,8 +1,22 @@
-import {readFileSync} from 'node:fs'
+import { readFileSync } from "node:fs";
 
-const readTodo = ()=>{
-   const result =   readFileSync('./todo.json','utf8')
-   return result
-}
+const todos = JSON.parse(readFileSync("./todo.json", "utf8"));
 
-export default readTodo
+export default function listTodos () {
+   console.log(todos)
+};
+
+export const listDoneTodos = () => {
+  return todos.filter((todo) => todo.status === "done");
+};
+
+export const listInProgressTodos = () => {
+  return todos.filter((todo) => todo.status === "in-progress");
+};
+
+export const listToBeDoneTodos = () => {
+  return todos.filter((todo) => todo.status === "todo");
+};
+
+
+

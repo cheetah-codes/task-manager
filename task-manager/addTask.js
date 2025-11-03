@@ -1,5 +1,4 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import inquirer from "inquirer";
 import chalk from "chalk";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,20 +8,11 @@ const saveTodos = () => {
   writeFileSync("./todo.json", JSON.stringify(todos, null, 2));
 };
 
-const addTask = async () => {
-  const date = new Date();
-
-  const answer = await inquirer.prompt([
-    {
-      type: "input",
-      name: "todo",
-      message: "What do you want to do?",
-    },
-  ]);
+const addTask = async (description) => {
 
   todos.push({
     id: uuidv4(),
-    description: `${answer.todo}`,
+    description,
 
     status: "Todo",
     createdAt: `${new Date().toLocaleTimeString("en-US", {
